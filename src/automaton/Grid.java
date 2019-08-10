@@ -9,15 +9,16 @@ public class Grid
 	private int _height;
 	private int _width;
 	
-	public Grid(int height, int width)
+	public Grid(int height, int width, int liveCellPct)
 	{
 		_grid = new boolean[height][width];
 		_height = height;
 		_width = width;
 
 		Random rand = new Random();
+		double numLiveCells = ((double)liveCellPct/100) * height*width;
 
-		for (int x = 0; x < (height*width)/20; x++)
+		for (int x = 0; x < (int)numLiveCells; x++)
 		{
 			int i = rand.nextInt(height);
 			int j = rand.nextInt(width);

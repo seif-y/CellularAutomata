@@ -13,13 +13,15 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Automaton extends JPanel implements ActionListener
 {
-	private static int multi = 10;
-	private static int SIZE = 50;
-	
+
 	private Grid _grid;
 	private Rule _rule;
 	private int _height;
 	private int _width;
+	
+	private Color liveCellColor = Color.RED;
+	
+	private Color deadCellColor = Color.BLACK;
 	
 	private Timer _timer = new Timer(100, this);
 	
@@ -30,19 +32,34 @@ public class Automaton extends JPanel implements ActionListener
 	 * @param birth The B rule: list of numbers of neighbours that will cause a dead cell to be born
 	 * @param survival The S rule: numbers of neighbours that will cause a live cell to survive (not die)
 	 */
-	public Automaton(int size, int[] birth, int[] survival)
+	public Automaton(int size, int liveCellPct, int[] birth, int[] survival)
 	{
 		this.setBackground(Color.RED);
-		_grid = new Grid(size, size);
+		_grid = new Grid(size, size, liveCellPct);
 		_rule = new Rule(birth, survival);
 		_height = size;
 		_width = size;
-		
-		_timer.start();
 	}
 	
 	
 
+	/**
+	 * Toggles the timer on or off depending on its current state.
+	 */
+	public void toggleTimer()
+	{
+		if (_timer.isRunning())
+		{
+			_timer.stop();
+		}
+		else
+		{
+			_timer.start();
+		}
+	}
+	
+	
+	
 	/**
 	 * Goes through each cell, checks its state, and assigns its colour accordingly.
 	 */
@@ -51,19 +68,22 @@ public class Automaton extends JPanel implements ActionListener
 	{
 		super.paintComponent(g);
 		
+		int x = this.getWidth() / _width;
+		int y = this.getHeight() / _height;
+		
 		for (int i = 0; i < _height; i++)
 		{
 			for (int j = 0; j < _width; j++)
 			{
 				if (_grid.getState(i,j) == true)
 				{
-					g.setColor(Color.BLACK);
-					g.fillRect(multi*i,multi*j,multi,multi);
+					g.setColor(liveCellColor);
+					g.fillRect(x*i,y*j,x,y);
 				}
 				else
 				{
-					g.setColor(Color.WHITE);
-					g.fillRect(multi*i,multi*j,multi,multi);
+					g.setColor(deadCellColor);
+					g.fillRect(x*i,y*j,x,y);
 				}
 			}
 		}
@@ -120,19 +140,33 @@ public class Automaton extends JPanel implements ActionListener
 	}
 	
 	
+	public void newAutomaton(int size, int liveCellPct, int[] b, int[] s)
+	{
+		_grid = new Grid(size, size, liveCellPct);
+		_rule = new Rule(b, s);
+		_height = size;
+		_width = size;
+	}
 	
-	/**
+	
+	public void setTimerDelay(int ms)
+	{
+		_timer.setDelay(ms);
+	}
+	
+	
+	/*
 	 * Main method: creates a frame to display the cellular automaton grid.
-	 */
+	 
 	public static void main(String[] args)
 	{
 		JFrame frame = new JFrame("Cellular Automaton");
 		
-		int[] s = {2,3};
+		int[] s = {1,2,3,4,5};
 		int[] b = {3};
 		frame.add(new Automaton(SIZE,b,s));
 		frame.setLocationRelativeTo(null);
 		frame.setSize(500,500);
 		frame.setVisible(true);
-	}
+	}*/
 }

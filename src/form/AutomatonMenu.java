@@ -1,6 +1,5 @@
 package form;
 
-import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +9,6 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -18,12 +16,10 @@ import javax.swing.SwingConstants;
 
 import automaton.Automaton;
 
-public class AutomatonMenu extends JDialog
+public class AutomatonMenu extends Form
 {
 	
 	private static final long serialVersionUID = 1L;
-
-	private Automaton _automaton;
 	
 	private JLabel _textForRuleB;
 	private JLabel _textForRuleS;
@@ -40,97 +36,88 @@ public class AutomatonMenu extends JDialog
 
 	public AutomatonMenu(JFrame frame, Automaton automaton)
 	{
-		super(frame, "Create a new automaton");
-		setResizable(false);
-		
-		_automaton = automaton;
-		
-		//Using GridBagLayout to do the layout of components in the content pane
-		this.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
+		super(frame, automaton);
 
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1;
-		c.weighty = 1;
+		_GBC.fill = GridBagConstraints.HORIZONTAL;
+		_GBC.weightx = 1;
+		_GBC.weighty = 1;
 		
 		//Elements on left side (labels describing input options)
 		
-		c.gridx = 0;
+		_GBC.gridx = 0;
 		
 		_textForRuleB = new JLabel("RuleString B: ", SwingConstants.RIGHT);
 		_textForRuleB.setFont(new Font("Helvetica", Font.BOLD, 15));
-		c.gridy = 0;
-		add(_textForRuleB, c);
+		_GBC.gridy = 0;
+		add(_textForRuleB, _GBC);
 		
 		_textForRuleS = new JLabel("RuleString S: ", SwingConstants.RIGHT);
 		_textForRuleS.setFont(new Font("Helvetica", Font.BOLD, 15));
-		c.gridy = 1;
-		add(_textForRuleS, c);
+		_GBC.gridy = 1;
+		add(_textForRuleS, _GBC);
 		
 		_textForGridSize = new JLabel("Size of Grid Square: ", SwingConstants.RIGHT);
 		_textForGridSize.setFont(new Font("Helvetica", Font.BOLD, 15));
-		c.gridy = 2;
-		add(_textForGridSize, c);
+		_GBC.gridy = 2;
+		add(_textForGridSize, _GBC);
 		
 		_textForLiveCells = new JLabel("Live Cell Percentage: ", SwingConstants.RIGHT);
 		_textForLiveCells.setFont(new Font("Helventica", Font.BOLD, 15));
-		c.gridy = 3;
-		add(_textForLiveCells, c);
+		_GBC.gridy = 3;
+		add(_textForLiveCells, _GBC);
 		
 		
 		//Elements on right side (text fields, drop down menus to get user input)
 		
-		c.gridx = 1;
-		c.insets = new Insets(0,0,0,85);
+		_GBC.gridx = 1;
+		_GBC.insets = new Insets(0,0,0,85);
 		
 		_ruleInputB = new JTextField();
-		c.gridy = 0;
-		add(_ruleInputB, c);
+		_GBC.gridy = 0;
+		add(_ruleInputB, _GBC);
 		
 		_ruleInputS = new JTextField();
-		c.gridy = 1;
-		add(_ruleInputS, c);
+		_GBC.gridy = 1;
+		add(_ruleInputS, _GBC);
 		
 		Integer[] gridSizeOptions = { 1000, 500, 250, 200, 125, 100, 50, 40, 25 };
 		_gridSizes = new JComboBox<Integer>(gridSizeOptions);
 		_gridSizes.setBackground(Color.WHITE);
-		c.gridy = 2;
-		add(_gridSizes, c);
+		_GBC.gridy = 2;
+		add(_gridSizes, _GBC);
 		
 		Integer[] liveCellPercentages = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 		_liveCellPcts = new JComboBox<Integer>(liveCellPercentages);
 		_liveCellPcts.setBackground(Color.WHITE);
-		c.gridy = 3;
-		add(_liveCellPcts, c);
+		_GBC.gridy = 3;
+		add(_liveCellPcts, _GBC);
 		
 		//Error message label
 		
-		c.insets = new Insets(0,0,0,0);
-		c.gridx = 0;
-		c.gridwidth = 2;
+		_GBC.insets = new Insets(0,0,0,0);
+		_GBC.gridx = 0;
+		_GBC.gridwidth = 2;
 		
 		_errorMsg = new JLabel();
 		_errorMsg.setFont(new Font("Helvetica", Font.ITALIC, 15));
 		_errorMsg.setHorizontalAlignment(SwingConstants.CENTER);
 		_errorMsg.setForeground(this.getBackground());
-		c.gridy = 4;
-		add(_errorMsg, c);
+		_GBC.gridy = 4;
+		add(_errorMsg, _GBC);
 		_errorMsg.setText("...nothing to report");
 		
 		//"Submit" button at the bottom of the form
-		c.insets = new Insets(0,120,0,120);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 10;
+		_GBC.insets = new Insets(0,120,0,120);
+		_GBC.fill = GridBagConstraints.HORIZONTAL;
+		_GBC.ipady = 10;
 		
 		_submit = new JButton("CREATE AUTOMATON");
 		_submit.setFont(new Font("Helvetica", Font.BOLD, 15));
-		addButtonEventHandler();
-		c.gridy = 5;
-		add(_submit, c);
+		_GBC.gridy = 5;
+		add(_submit, _GBC);
 		
-		this.setSize(500,600);
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		//Set the event handler for the button
+		addButtonEventHandlers();
 	}
 	
 	
@@ -138,11 +125,12 @@ public class AutomatonMenu extends JDialog
 	public static void startAutomatonMenu(JFrame frame, Automaton automaton)
 	{
 		AutomatonMenu menu = new AutomatonMenu(frame, automaton);
+		menu.setTitle("New Automaton");
 	}
 	
 	
 	
-	private void addButtonEventHandler()
+	private void addButtonEventHandlers()
 	{
 		_submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)

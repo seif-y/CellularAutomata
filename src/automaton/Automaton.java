@@ -16,8 +16,7 @@ public class Automaton extends JPanel implements ActionListener
 
 	private Grid _grid;
 	private Rule _rule;
-	private int _height;
-	private int _width;
+	private int _size;
 	
 	private Color liveCellColor = Color.RED;
 	
@@ -37,8 +36,7 @@ public class Automaton extends JPanel implements ActionListener
 		this.setBackground(Color.RED);
 		_grid = new Grid(size, size, liveCellPct);
 		_rule = new Rule(birth, survival);
-		_height = size;
-		_width = size;
+		_size = size;
 	}
 	
 	
@@ -68,22 +66,21 @@ public class Automaton extends JPanel implements ActionListener
 	{
 		super.paintComponent(g);
 		
-		int x = this.getWidth() / _width;
-		int y = this.getHeight() / _height;
+		int cellSize = this.getWidth() / _size;
 		
-		for (int i = 0; i < _height; i++)
+		for (int i = 0; i < _size; i++)
 		{
-			for (int j = 0; j < _width; j++)
+			for (int j = 0; j < _size; j++)
 			{
 				if (_grid.getState(i,j) == true)
 				{
 					g.setColor(liveCellColor);
-					g.fillRect(x*i,y*j,x,y);
+					g.fillRect(cellSize*i, cellSize*j, cellSize, cellSize);
 				}
 				else
 				{
 					g.setColor(deadCellColor);
-					g.fillRect(x*i,y*j,x,y);
+					g.fillRect(cellSize*i, cellSize*j, cellSize, cellSize);
 				}
 			}
 		}
@@ -98,9 +95,9 @@ public class Automaton extends JPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		for (int i = 0; i < _height; i++)
+		for (int i = 0; i < _size; i++)
 		{
-			for (int j = 0; j < _width; j++)
+			for (int j = 0; j < _size; j++)
 			{
 				int neighbours = _grid.countCellNeighbours(i,j);
 				
@@ -144,8 +141,7 @@ public class Automaton extends JPanel implements ActionListener
 	{
 		_grid = new Grid(size, size, liveCellPct);
 		_rule = new Rule(b, s);
-		_height = size;
-		_width = size;
+		_size = size;
 	}
 	
 	

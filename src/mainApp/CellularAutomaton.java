@@ -30,8 +30,9 @@ public class CellularAutomaton extends JPanel
 	
 	private Automaton _automaton;
 	
-	private JButton _newAutomaton;
-	private JButton _toggleAutomaton;
+	private JButton _btnNew;
+	private JButton _btnToggle;
+	private JButton _btnOptions;
 	private JSlider _speedControl;
 	
 	private CellularAutomaton()
@@ -40,8 +41,9 @@ public class CellularAutomaton extends JPanel
 		
 		// SETTING UP BUTTONS
 		
-		_newAutomaton = new JButton("NEW");
-		_toggleAutomaton = new JButton("START/STOP");
+		_btnNew = new JButton("NEW");
+		_btnToggle = new JButton("START");
+		_btnOptions = new JButton("OPTIONS");
 		_speedControl = new JSlider(1,100);
 		setEventHandlers();
 		
@@ -50,10 +52,12 @@ public class CellularAutomaton extends JPanel
 		JPanel infoPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridy = 0;
-		infoPanel.add(_newAutomaton, c);
+		infoPanel.add(_btnNew, c);
 		c.gridy = 1;
-		infoPanel.add(_toggleAutomaton, c);
+		infoPanel.add(_btnToggle, c);
 		c.gridy = 2;
+		infoPanel.add(_btnOptions, c);
+		c.gridy = 3;
 		infoPanel.add(_speedControl, c);
 		infoPanel.setPreferredSize(new Dimension(500,1000));
 		add(infoPanel, BorderLayout.WEST);
@@ -101,7 +105,7 @@ public class CellularAutomaton extends JPanel
 	private void setEventHandlers()
 	{
 		
-		_newAutomaton.addActionListener(new ActionListener() {
+		_btnNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
 				AutomatonMenu.startAutomatonMenu(_frame, _automaton);
@@ -111,10 +115,21 @@ public class CellularAutomaton extends JPanel
 			}
 		});
 		
-		_toggleAutomaton.addActionListener(new ActionListener() {
+		_btnToggle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
 				_automaton.toggleTimer();
+				
+				String text = _btnToggle.getText();
+				if (text.equals("START")) { _btnToggle.setText("STOP"); }
+				else { _btnToggle.setText("START"); }
+			}
+		});
+		
+		_btnOptions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				OptionsMenu.startOptionsMenu(_frame, _automaton);
 			}
 		});
 		

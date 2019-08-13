@@ -37,7 +37,7 @@ public class AutomatonMenu extends Form
 	public AutomatonMenu(JFrame frame, Automaton automaton)
 	{
 		super(frame, automaton);
-
+		
 		_GBC.fill = GridBagConstraints.HORIZONTAL;
 		_GBC.weightx = 1;
 		_GBC.weighty = 1;

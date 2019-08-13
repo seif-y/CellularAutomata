@@ -105,7 +105,7 @@ public class Automaton extends JPanel implements ActionListener
 				
 				boolean cellIsAlive = _grid.getState(i,j);
 				
-				if (_grid.getState(i,j) == true)
+				if (cellIsAlive)
 				{
 					list = _rule.getS();
 				}

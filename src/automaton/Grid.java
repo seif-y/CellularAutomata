@@ -50,7 +50,7 @@ public class Grid
 				{
 					if ((j >= 0) && (j < _width))
 					{
-						if (_grid[i][j] == true) { neighbours++; }
+						if ((_grid[i][j] == true) && !((i == row) && (j == col))) { neighbours++; }
 					}
 				}
 			}

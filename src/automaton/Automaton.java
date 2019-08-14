@@ -18,7 +18,7 @@ public class Automaton extends JPanel implements ActionListener
 	private Rule _rule;
 	private int _size;
 	
-	private Color liveCellColor = Color.RED;
+	private Color liveCellColor = Color.GREEN;
 	
 	private Color deadCellColor = Color.BLACK;
 	
@@ -95,15 +95,17 @@ public class Automaton extends JPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		Grid oldGrid = _grid.duplicate();
+		
 		for (int i = 0; i < _size; i++)
 		{
 			for (int j = 0; j < _size; j++)
 			{
-				int neighbours = _grid.countCellNeighbours(i,j);
+				int neighbours = oldGrid.countCellNeighbours(i,j);
 				
 				int[] list;
 				
-				boolean cellIsAlive = _grid.getState(i,j);
+				boolean cellIsAlive = oldGrid.getState(i,j);
 				
 				if (cellIsAlive)
 				{

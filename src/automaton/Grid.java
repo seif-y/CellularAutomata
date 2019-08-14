@@ -63,4 +63,11 @@ public class Grid
 	{
 		return _grid[row][col];
 	}
+	
+	public Grid duplicate()
+	{
+		Grid newGrid = new Grid(_height, _width, 0);
+		newGrid._grid = this._grid;
+		return newGrid;
+	}
 }
